@@ -25,7 +25,7 @@ function handleImageSelect(file, imageNumber) {
     reader.onload = (e) => {
         const previewHTML = `
             <div class="h-full flex flex-col">
-                <div class="relative overflow-hidden flex-shrink-0" style="aspect-ratio: 4/3;">
+                <div class="relative overflow-hidden aspect-[4/3] w-full h-100">
                     <img src="${e.target.result}" alt="Preview ${imageNumber}" class="w-full h-full object-cover">
                 </div>
                 <div class="p-6 border-t-4 border-neutral-900 bg-white flex-shrink-0">
@@ -80,7 +80,7 @@ uploadBtn.addEventListener('click', async () => {
     formData.append('image1', image1File);
     formData.append('image2', image2File);
 
-    const backendUrl = 'https://your-python-backend.pythonanywhere.com/process-images';
+    const backendUrl = 'https://image-processing-io.onrender.com';
 
     try {
         const response = await fetch(backendUrl, {
