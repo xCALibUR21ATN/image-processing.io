@@ -80,7 +80,7 @@ uploadBtn.addEventListener('click', async () => {
     formData.append('image1', image1File);
     formData.append('image2', image2File);
 
-    const backendUrl = 'https://image-processing-io.onrender.com';
+    const backendUrl = 'https://image-processing-io.onrender.com/process-images';
 
     try {
         const response = await fetch(backendUrl, {
