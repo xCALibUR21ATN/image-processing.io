@@ -24,16 +24,16 @@ function handleImageSelect(file, imageNumber) {
     const reader = new FileReader();
     reader.onload = (e) => {
         const previewHTML = `
-            <div>
-                <div class="relative overflow-hidden aspect-[4/3]">
+            <div class="h-full flex flex-col">
+                <div class="relative overflow-hidden flex-shrink-0" style="aspect-ratio: 4/3;">
                     <img src="${e.target.result}" alt="Preview ${imageNumber}" class="w-full h-full object-cover">
                 </div>
-                <div class="p-6 border-t-4 border-neutral-900 bg-white">
-                    <div class="flex items-center gap-3">
+                <div class="p-6 border-t-4 border-neutral-900 bg-white flex-shrink-0">
+                    <div class="flex items-center gap-3 min-w-0">
                         <svg class="w-6 h-6 text-neutral-900 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
                         </svg>
-                        <span class="font-bold text-neutral-900 truncate">${file.name}</span>
+                        <span class="font-bold text-neutral-900 truncate block" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${file.name}</span>
                     </div>
                 </div>
             </div>
@@ -54,7 +54,7 @@ function handleImageSelect(file, imageNumber) {
         checkUploadReady();
     };
     reader.readAsDataURL(file);
-    
+
     resultContainer.style.display = 'none';
 }
 
