@@ -1,6 +1,5 @@
 numpy
 flask
-tempfile
 gunicorn
 werkzeug
 flask-cors
