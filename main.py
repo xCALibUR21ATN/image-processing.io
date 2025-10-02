@@ -4,6 +4,7 @@ import base64
 import numpy as np
 import tempfile
 from flask_cors import CORS
+from werkzeug.utils import secure_filename
 from flask import Flask, request, jsonify, send_file, after_this_request
 from generate import visualize_color_diff
 
@@ -22,6 +23,9 @@ def process_images():
     img1_file = request.files['image1']
     img2_file = request.files['image2']
 
+    filename1 = secure_filename(img1_file.filename)
+    filename2 = secure_filename(img2_file.filename)
+    
     img1_bytes = img1_file.read()
     img2_bytes = img2_file.read()
 
