@@ -1,8 +1,11 @@
+os
+numpy
+flask
+base64
+tempfile
 gunicorn
+werkzeug
+flask-cors
 scikit-image
 scikit-learn
 opencv-python
-numpy
-flask
-werkzeug
-flask-cors
