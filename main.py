@@ -25,7 +25,14 @@ def process_images():
 
     filename1 = secure_filename(img1_file.filename)
     filename2 = secure_filename(img2_file.filename)
+
+    return jsonify({
+        "image1_name": filename1,
+        "image2_name": filename2,
+        "message": "Images received and processed"
+    })
     
+'''    
     img1_bytes = img1_file.read()
     img2_bytes = img2_file.read()
 
@@ -72,7 +79,7 @@ def process_images():
     encoded_img = base64.b64encode(output_bytes).decode('utf-8')
 
     return jsonify({'image': encoded_img})
-
+'''
 
 if __name__ == '__main__':
     app.run(debug=True)
