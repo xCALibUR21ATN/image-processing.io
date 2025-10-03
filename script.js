@@ -1,5 +1,7 @@
 let image1File = null;
 let image2File = null;
+let processedImageUrl = '';
+let fileName = '';
 
 const image1Input = document.getElementById('image1');
 const image2Input = document.getElementById('image2');
@@ -11,6 +13,10 @@ const resultBox = document.getElementById('resultBox');
 const resultIcon = document.getElementById('resultIcon');
 const resultTitle = document.getElementById('resultTitle');
 const resultText = document.getElementById('resultText');
+const downloadBtnContainer = document.getElementById('downloadBtnContainer');
+const downloadBtn = document.getElementById('downloadBtn');
+const downloadShine = document.getElementById('downloadShine');
+const downloadBtnText = document.getElementById('downloadBtnText');
 
 upload1Div.addEventListener('click', () => image1Input.click());
 upload2Div.addEventListener('click', () => image2Input.click());
@@ -56,6 +62,8 @@ function handleImageSelect(file, imageNumber) {
     reader.readAsDataURL(file);
 
     resultContainer.style.display = 'none';
+    downloadBtnContainer.style.display = 'none';
+    processedImageUrl = '';
 }
 
 function checkUploadReady() {
@@ -64,6 +72,9 @@ function checkUploadReady() {
         uploadBtn.className = 'group relative px-16 py-6 border-4 font-black text-xl transition-all duration-200 bg-neutral-900 border-neutral-900 text-white hover:translate-x-1 hover:translate-y-1 hover:shadow-none shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]';
     }
 }
+
+// Point this URL to your locally running Flask (or other) server
+const backendUrl = 'https://image-processing-io.onrender.com/process-images';
 
 uploadBtn.addEventListener('click', async () => {
     if (!image1File || !image2File) return;
@@ -80,8 +91,6 @@ uploadBtn.addEventListener('click', async () => {
     formData.append('image1', image1File);
     formData.append('image2', image2File);
 
-    const backendUrl = 'https://image-processing-io.onrender.com/process-images';
-
     try {
         const response = await fetch(backendUrl, {
             method: 'POST',
@@ -90,7 +99,17 @@ uploadBtn.addEventListener('click', async () => {
 
         if (response.ok) {
             const data = await response.json();
-            showResult(JSON.stringify(data, null, 2), true);
+
+            showResult(data.message, true)
+
+            if (data.processedImageUrl) {
+                processedImageUrl = data.processedImageUrl;
+                downloadBtnContainer.style.display = 'flex';
+            }
+
+            if (data.fileName){
+                fileName = data.fileName;
+            }
         } else {
             showResult('Error processing images. Please try again.', false);
         }
@@ -109,6 +128,32 @@ uploadBtn.addEventListener('click', async () => {
     checkUploadReady();
 });
 
+downloadBtn.addEventListener('click', () => {
+    if (!processedImageUrl) return;
+
+    // Start animation
+    downloadShine.style.display = 'block';
+    downloadShine.classList.add('animate-download-shine');
+    downloadBtnText.textContent = 'DOWNLOADING...';
+    downloadBtn.disabled = true;
+
+    // Create and click direct link to Flask download endpoint
+    const link = document.createElement('a');
+    link.href = processedImageUrl;  // e.g. http://localhost:5000/download/filename.png
+    link.download = fileName || '';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    // Stop animation shortly after; give time for download to start
+    setTimeout(() => {
+        downloadShine.style.display = 'none';
+        downloadShine.classList.remove('animate-download-shine');
+        downloadBtnText.textContent = 'DOWNLOAD IMAGE';
+        downloadBtn.disabled = false;
+    }, 2000);
+});
+
 function showResult(text, isSuccess) {
     resultContainer.style.display = 'block';
     resultText.textContent = text;
@@ -125,5 +170,6 @@ function showResult(text, isSuccess) {
         resultTitle.className = 'text-2xl font-black text-red-600';
         resultTitle.textContent = 'ERROR';
         resultIcon.innerHTML = '<circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/>';
+        downloadBtnContainer.style.display = 'none';
     }
 }
