@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Image Processing</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles.css">
     </head>
 <body class="min-h-screen bg-neutral-50">
     <div class="container mx-auto px-4 py-16 md:py-24">
@@ -71,6 +72,17 @@
                         <h3 id="resultTitle" class="text-2xl font-black">SUCCESS</h3>
                     </div>
                     <pre id="resultText" class="bg-neutral-100 border-4 border-neutral-900 p-6 overflow-x-auto text-sm text-neutral-900 font-mono leading-relaxed"></pre>
+                    <div id="downloadBtnContainer" style="display: none;" class="mt-8 flex justify-center">
+                        <button id="downloadBtn" class="group relative px-16 py-6 border-4 bg-neutral-900 border-neutral-900 text-white hover:translate-x-1 hover:translate-y-1 hover:shadow-none shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] font-black text-xl transition-all duration-200 overflow-hidden">
+                            <div id="downloadShine" class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent" style="display: none;"></div>
+                            <span class="relative flex items-center gap-4">
+                                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/>
+                                </svg>
+                                <span id="downloadBtnText">DOWNLOAD IMAGE</span>
+                            </span>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
