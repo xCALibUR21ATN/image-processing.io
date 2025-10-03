@@ -5,7 +5,7 @@ import tempfile
 import threading
 from flask_cors import CORS
 from werkzeug.utils import secure_filename
-from flask import Flask, request, jsonify, send_file, render_template
+from flask import Flask, request, jsonify, send_file
 from generate import visualize_color_diff
 
 app = Flask(__name__)
@@ -23,10 +23,6 @@ def delayed_delete(path, delay=5):
         except Exception as e:
             app.logger.error(f"Delayed deletion failed: {e}")
     threading.Thread(target=delete_file).start()
-
-@app.route('/')
-def index():
-    return render_template('index.html')
 
 @app.route('/process-images', methods=['POST'])
 def process_images():
