@@ -60,7 +60,7 @@ def process_images():
     cv2.imwrite(out_path, result)
 
     out_name = os.path.basename(out_path)
-    download_url = f"{request.host_url}download/{out_name}"
+    download_url = f"https://image-processing-io.onrender.com/download/{out_name}"
 
     return jsonify({
         'message': f"Image uploaded: {fn1}\nImage uploaded: {fn2}\n\nSuccessfully Processed",
